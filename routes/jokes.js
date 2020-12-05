@@ -2,7 +2,7 @@ const express = require('express')
 const axios = require('axios')
 
 const router = express.Router()
-let jokes = require('../store')
+var jokes = []
 
 
 async function getJoke() {
@@ -37,7 +37,7 @@ router.get('/all', async(req, res) => {
     }
 })
 
-router.get('/random', async(req, res) => {
+router.get('/random-five', async(req, res) => {
     try {
         let indexes = []
         for (let i = 0; i < 5; i++) {
@@ -52,7 +52,7 @@ router.get('/random', async(req, res) => {
     }
 })
 
-router.get('/removeAll', async(req, res) => {
+router.get('/remove-all', async(req, res) => {
     try {
         jokes = []
         res.json(jokes)
@@ -61,7 +61,7 @@ router.get('/removeAll', async(req, res) => {
     }
 })
 
-router.get('/fetchAll', async(req, res) => {
+router.get('/fetch-all', async(req, res) => {
     try {
         jokes = jokes.concat(await getAll())
         res.send(jokes)
@@ -70,7 +70,7 @@ router.get('/fetchAll', async(req, res) => {
     }
 })
 
-router.get('/randomTen', async(req, res) => {
+router.get('/random-ten', async(req, res) => {
     try {
         let indexes = []
         for (let i = 0; i < 10; i++) {
