@@ -36,7 +36,11 @@ router.get('/random-five', async(req, res) => {
     try {
         var dataObj = []
         if (jokes.length > 0){
-            getRandomJokes(5, dataObj)
+            if (jokes.length > 5){
+                getRandomJokes(5, dataObj)
+            } else {
+                var dataObj = jokes
+            }
         }
         res.json(dataObj)
     } catch (err) {
@@ -64,9 +68,13 @@ router.get('/fetch-all', async(req, res) => {
 
 router.get('/random-ten', async(req, res) => {
     try {
-        let dataObj = []
+        var dataObj = []
         if (jokes.length > 0){
-            getRandomJokes(10, dataObj)
+            if (jokes.length > 10){
+                getRandomJokes(10, dataObj)
+            } else {
+                var dataObj = jokes
+            }
             dataObj.forEach(function (objs) {
                 var arrWords = objs['joke'].split(" ")
                 var obj = {}
