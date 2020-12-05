@@ -12,7 +12,6 @@ getAll().then(function(jokeData){
 router.get('/all', async(req, res) => {
     try {
         res.json(jokes)
-        console.log(jokes)
     } catch (err) {
         res.send('Error ' + err)
     }
