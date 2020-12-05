@@ -4,6 +4,26 @@ const axios = require('axios')
 const router = express.Router()
 let jokes = require('../store')
 
+
+async function getJoke() {
+    try {
+      const response = await axios.get('http://api.icndb.com/jokes/random/');
+      return response.data.value;
+    } catch (error) {
+      console.error(error);
+    }
+}
+
+async function getAll(){
+    new_jokes = []
+    joke = getJoke()
+    for (let i = 0; i < 10; i++) {
+        new_jokes.push(getJoke())
+    }
+    let te_jokes = await Promise.all(new_jokes)
+    return te_jokes
+}
+
 getAll().then(function(jokeData){
     jokes = jokeData
 })
@@ -74,24 +94,5 @@ router.get('/randomTen', async(req, res) => {
         res.send('Error ' + err)
     }
 })
-
-async function getJoke() {
-    try {
-      const response = await axios.get('http://api.icndb.com/jokes/random/');
-      return response.data.value;
-    } catch (error) {
-      console.error(error);
-    }
-}
-
-async function getAll(){
-    new_jokes = []
-    joke = getJoke()
-    for (let i = 0; i < 10; i++) {
-        new_jokes.push(getJoke())
-    }
-    let te_jokes = await Promise.all(new_jokes)
-    return te_jokes
-}
 
 module.exports = router
