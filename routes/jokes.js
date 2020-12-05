@@ -5,6 +5,20 @@ const router = express.Router()
 let jokes = jokesStore.jokes
 let getAllJokes = jokesStore.getAllJokes
 
+
+function getRandomJokes(num, dataObj) {
+    if (dataObj.length < num) {
+        let index = Math.floor((Math.random() * jokes.length));
+        let dataId = dataObj.map(item => item.id)
+        if (!dataId.includes(jokes[index].id)){
+            dataObj.push(jokes[index])
+        }
+        return getRandomJokes(num, dataObj)
+    } else {
+        return dataObj
+    }
+}
+
 getAllJokes.then(function(jokesData){
     jokes = jokesData
 })
@@ -20,16 +34,12 @@ router.get('/all', async(req, res) => {
 
 router.get('/random-five', async(req, res) => {
     try {
-        let indexes = []
+        var dataObj = []
         if (jokes.length > 0){
-            for (let i = 0; i < 5; i++) {
-                let index = Math.floor((Math.random() * (jokes.length - 1) + 1));
-                if (!indexes.includes(index)) {
-                    indexes.push(jokes[index])
-                }
-            }
+            dataObj = []
+            getRandomJokes(5, dataObj)
         }
-        res.json(indexes)
+        res.json(dataObj)
     } catch (err) {
         res.send('Error ' + err)
     }

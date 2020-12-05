@@ -24,5 +24,5 @@ async function getAllJokes(){
 
 module.exports = {
     jokes: jokes,
-    getAllJokes: getAllJokes()
+    getAllJokes: getAllJokes(),
 }
