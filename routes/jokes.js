@@ -36,7 +36,6 @@ router.get('/random-five', async(req, res) => {
     try {
         var dataObj = []
         if (jokes.length > 0){
-            dataObj = []
             getRandomJokes(5, dataObj)
         }
         res.json(dataObj)
@@ -65,26 +64,23 @@ router.get('/fetch-all', async(req, res) => {
 
 router.get('/random-ten', async(req, res) => {
     try {
-        let indexes = []
+        let dataObj = []
         if (jokes.length > 0){
-            for (let i = 0; i < 10; i++) {
-                let index = Math.floor((Math.random() * (jokes.length - 1) + 1));
-                if (!indexes.includes(index)) {
-                    var arr = jokes[index]['joke'].split(" ")
-                    var obj = {}
-                    arr.forEach(function(item){
-                        if (obj[item]) {
-                            obj[item] = obj[item] + 1
-                        } else {
-                            obj[item] = 1
-                        }
-                    })
-                    jokes[index]['words'] = obj
-                    indexes.push(jokes[index])
-                }
-            }
+            getRandomJokes(10, dataObj)
+            dataObj.forEach(function (objs) {
+                var arrWords = objs['joke'].split(" ")
+                var obj = {}
+                arrWords.forEach(function(item){
+                    if (obj[item]) {
+                        obj[item] = obj[item] + 1
+                    } else {
+                        obj[item] = 1
+                    }
+                })
+                objs['words'] = obj
+            })
         }
-        res.json(indexes)
+        res.json(dataObj)
     } catch (err) {
         res.send('Error ' + err)
     }
