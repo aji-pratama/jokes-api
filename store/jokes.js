@@ -4,22 +4,22 @@ var jokes = []
 
 
 async function getJoke() {
-    try {
-      	const response = await axios.get('http://api.icndb.com/jokes/random/');
-      	return response.data.value;
-    } catch (error) {
-      	console.error(error);
-    }
+    await axios.get('http://api.icndb.com/jokes/random/').then(function(response) {
+        if (jokes.length < 10) {
+            let data = response.data.value
+            dataId = jokes.map(data => data.id)
+            if (!dataId.includes(data.id)){
+                jokes.push(data)
+                console.log("getJoke Length: "+ jokes.length)
+            }
+            return getJoke()
+        }
+    });
 }
 
 async function getAllJokes(){
-    new_jokes = []
-    joke = getJoke()
-    for (let i = 0; i < 10; i++) {
-        new_jokes.push(getJoke())
-    }
-    let jokesData = await Promise.all(new_jokes)
-    return jokesData
+    getJoke()
+    return jokes
 }
 
 module.exports = {
